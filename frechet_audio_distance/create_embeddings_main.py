@@ -43,6 +43,8 @@ flags.DEFINE_integer('model_embedding_dim', 128,
                      'The model dimension of the models emedding layer.')
 flags.DEFINE_integer('model_step_size', 8000,
                      'Number of samples between each extraced windown.')
+flags.DEFINE_integer('batch_size', 64,
+                    'Number of samples in the batch for AudioSet model.')
 
 flags.mark_flags_as_mutual_exclusive(['input_files', 'tfrecord_input'],
                                      required=True)
@@ -66,7 +68,8 @@ def main(unused_argv):
           embedding_dim=FLAGS.model_embedding_dim,
           step_size=FLAGS.model_step_size),
       embeddings_output=FLAGS.embeddings,
-      stats_output=FLAGS.stats)
+      stats_output=FLAGS.stats,
+      batch_size=FLAGS.batch_size)
   result = pipeline.run()
   result.wait_until_finish()
 
